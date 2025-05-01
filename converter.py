@@ -1,4 +1,6 @@
 import sys
+from importlib.resources import contents
+
 import pytz
 import pyperclip
 import re
@@ -8,6 +10,9 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtCore import QTimer, Qt, QPoint, QEvent
 from PyQt5.QtGui import QIcon
+
+import readFromClipboard
+
 
 class TimestampConverter(QWidget):
     def __init__(self):
@@ -67,7 +72,8 @@ class TimestampConverter(QWidget):
         self.tray_icon.setVisible(True)
 
     def check_clipboard(self):
-        content = pyperclip.paste().strip()
+        #content = pyperclip.paste().strip()
+        content = readFromClipboard.safe_read_clipboard_qt()
         if content != self.clipboard_content:
             self.clipboard_content = content
             self.input_edit.setText(content)
